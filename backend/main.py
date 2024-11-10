@@ -2,12 +2,12 @@ from typing import Union, List
 
 from fastapi import FastAPI, UploadFile # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
-import cv2
-import torch
-from PIL import Image
+import cv2 # type: ignore
+import torch # type: ignore
+from PIL import Image # type: ignore
 import tempfile
 import os
-from transformers import BlipProcessor, BlipForConditionalGeneration
+from transformers import BlipProcessor, BlipForConditionalGeneration # type: ignore
 
 app = FastAPI()
 
