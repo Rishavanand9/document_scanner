@@ -22,6 +22,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Frontend build
+scanner-frontend/build/
+scanner-frontend/dist/
+
 # IDEs and editors
 .idea/
 .vscode/
