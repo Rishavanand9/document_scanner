@@ -7,7 +7,9 @@ import torch # type: ignore
 from PIL import Image # type: ignore
 import tempfile
 import os
-from transformers import BlipProcessor, BlipForConditionalGeneration # type: ignore
+from transformers import BlipProcessor, BlipForConditionalGeneration, TrOCRProcessor, VisionEncoderDecoderModel # type: ignore
+import base64
+import io
 
 app = FastAPI()
 
@@ -23,6 +25,10 @@ app.add_middleware(
 # Initialize BLIP model and processor
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+
+# Initialize TrOCR model and processor
+ocr_processor = TrOCRProcessor.from_pretrained('microsoft/trocr-base-handwritten')
+ocr_model = VisionEncoderDecoderModel.from_pretrained('microsoft/trocr-base-handwritten')
 
 @app.get("/")
 def read_root():
@@ -70,16 +76,28 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
                 rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 # Convert to PIL Image
                 pil_image = Image.fromarray(rgb_frame)
-                # Prepare image for BLIP model
-                inputs = processor(pil_image, return_tensors="pt")
-                # Generate caption
-                out = model.generate(**inputs)
+                
+                # Generate caption using BLIP
+                blip_inputs = processor(pil_image, return_tensors="pt")
+                out = model.generate(**blip_inputs)
                 caption = processor.decode(out[0], skip_special_tokens=True)
+                
+                # Perform OCR on the image
+                ocr_inputs = ocr_processor(images=pil_image, return_tensors="pt")
+                ocr_outputs = ocr_model.generate(**ocr_inputs)
+                # detected_text = ocr_processor.batch_decode(ocr_outputs, skip_special_tokens=True)[0]
+                
+                # Convert frame to base64
+                buffered = io.BytesIO()
+                pil_image.save(buffered, format="JPEG")
+                img_str = base64.b64encode(buffered.getvalue()).decode()
                 
                 results.append({
                     "frame_number": frame_count,
                     "timestamp": frame_count/fps,
-                    "caption": caption
+                    "caption": caption,
+                    # "detected_text": detected_text,
+                    "frame_image": img_str
                 })
         
         video.release()

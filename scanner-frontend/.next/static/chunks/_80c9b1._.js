@@ -76,13 +76,13 @@ function Dashboard() {
                                     children: "Dashboard"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/page.tsx",
-                                    lineNumber: 62,
-                                    columnNumber: 15
+                                    lineNumber: 63,
+                                    columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 61,
-                                columnNumber: 13
+                                lineNumber: 62,
+                                columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center",
@@ -92,29 +92,29 @@ function Dashboard() {
                                     children: "Logout"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/page.tsx",
-                                    lineNumber: 65,
-                                    columnNumber: 15
+                                    lineNumber: 66,
+                                    columnNumber: 29
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 64,
-                                columnNumber: 13
+                                lineNumber: 65,
+                                columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 60,
-                        columnNumber: 11
+                        lineNumber: 61,
+                        columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/dashboard/page.tsx",
-                    lineNumber: 59,
-                    columnNumber: 9
+                    lineNumber: 60,
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 58,
-                columnNumber: 7
+                lineNumber: 59,
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
                 className: "max-w-7xl mx-auto py-6 sm:px-6 lg:px-8",
@@ -129,16 +129,16 @@ function Dashboard() {
                                 children: "Start Recording"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 80,
-                                columnNumber: 15
+                                lineNumber: 81,
+                                columnNumber: 29
                             }, this),
                             isCameraOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Camera, {
                                 onCapture: handleCapture,
                                 onClose: ()=>setIsCameraOpen(false)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 89,
-                                columnNumber: 15
+                                lineNumber: 90,
+                                columnNumber: 29
                             }, this),
                             capturedVideo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-4 flex flex-col items-center",
@@ -149,8 +149,8 @@ function Dashboard() {
                                         className: "w-full max-w-4xl rounded-lg"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/page.tsx",
-                                        lineNumber: 97,
-                                        columnNumber: 17
+                                        lineNumber: 98,
+                                        columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "mt-6 flex gap-4",
@@ -165,8 +165,8 @@ function Dashboard() {
                                                 children: "Record Again"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                                lineNumber: 103,
-                                                columnNumber: 19
+                                                lineNumber: 104,
+                                                columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 onClick: handleAuthenticate,
@@ -175,113 +175,132 @@ function Dashboard() {
                                                 children: isAnalyzing ? 'Analyzing...' : 'Authenticate Video'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                                lineNumber: 113,
-                                                columnNumber: 19
+                                                lineNumber: 114,
+                                                columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/page.tsx",
-                                        lineNumber: 102,
-                                        columnNumber: 17
+                                        lineNumber: 103,
+                                        columnNumber: 33
                                     }, this),
                                     analysisResults && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "mt-6 w-full max-w-4xl",
+                                        className: "mt-8 w-full max-w-4xl",
                                         children: [
+                                            " ",
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                                className: "text-xl font-bold mb-4",
+                                                className: "text-2xl font-bold mb-6 text-gray-800",
                                                 children: "Analysis Results"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
                                                 lineNumber: 127,
-                                                columnNumber: 21
+                                                columnNumber: 41
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "bg-white shadow rounded-lg p-4",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "space-y-2",
-                                                    children: analysisResults.map((result)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "p-3 bg-gray-50 rounded flex justify-between",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "bg-white rounded-lg shadow-sm p-6",
+                                                children: [
+                                                    " ",
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "space-y-4",
+                                                        children: [
+                                                            " ",
+                                                            analysisResults.map((result)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-between gap-4 border border-gray-200" /* Enhanced card style */ ,
                                                                     children: [
-                                                                        "Frame: ",
-                                                                        result.frame_number
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "font-medium text-gray-700",
+                                                                            children: [
+                                                                                "Frame: ",
+                                                                                result.frame_number
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/dashboard/page.tsx",
+                                                                            lineNumber: 135,
+                                                                            columnNumber: 57
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "text-gray-600",
+                                                                            children: [
+                                                                                "Time: ",
+                                                                                result.timestamp.toFixed(2),
+                                                                                "s"
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/dashboard/page.tsx",
+                                                                            lineNumber: 136,
+                                                                            columnNumber: 57
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "text-gray-600 flex-1",
+                                                                            children: [
+                                                                                "Caption: ",
+                                                                                result.caption
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/dashboard/page.tsx",
+                                                                            lineNumber: 137,
+                                                                            columnNumber: 57
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                                            src: `data:image/jpeg;base64,${result.frame_image}`,
+                                                                            alt: "Frame",
+                                                                            className: "w-24 h-24 rounded-md object-cover" /* Better image presentation */ 
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/dashboard/page.tsx",
+                                                                            lineNumber: 138,
+                                                                            columnNumber: 57
+                                                                        }, this)
                                                                     ]
-                                                                }, void 0, true, {
+                                                                }, result.frame_number, true, {
                                                                     fileName: "[project]/src/app/dashboard/page.tsx",
-                                                                    lineNumber: 135,
-                                                                    columnNumber: 29
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    children: [
-                                                                        "Time: ",
-                                                                        result.timestamp.toFixed(2),
-                                                                        "s"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/dashboard/page.tsx",
-                                                                    lineNumber: 136,
-                                                                    columnNumber: 29
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    children: [
-                                                                        "Caption: ",
-                                                                        result.caption
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/dashboard/page.tsx",
-                                                                    lineNumber: 137,
-                                                                    columnNumber: 29
-                                                                }, this)
-                                                            ]
-                                                        }, result.frame_number, true, {
-                                                            fileName: "[project]/src/app/dashboard/page.tsx",
-                                                            lineNumber: 131,
-                                                            columnNumber: 27
-                                                        }, this))
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/dashboard/page.tsx",
-                                                    lineNumber: 129,
-                                                    columnNumber: 23
-                                                }, this)
-                                            }, void 0, false, {
+                                                                    lineNumber: 131,
+                                                                    columnNumber: 53
+                                                                }, this))
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/dashboard/page.tsx",
+                                                        lineNumber: 129,
+                                                        columnNumber: 45
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/page.tsx",
                                                 lineNumber: 128,
-                                                columnNumber: 21
+                                                columnNumber: 41
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/page.tsx",
                                         lineNumber: 126,
-                                        columnNumber: 19
+                                        columnNumber: 37
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/page.tsx",
-                                lineNumber: 96,
-                                columnNumber: 15
+                                lineNumber: 97,
+                                columnNumber: 29
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 78,
-                        columnNumber: 11
+                        lineNumber: 79,
+                        columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/dashboard/page.tsx",
-                    lineNumber: 77,
-                    columnNumber: 9
+                    lineNumber: 78,
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 76,
-                columnNumber: 7
+                lineNumber: 77,
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/dashboard/page.tsx",
-        lineNumber: 57,
-        columnNumber: 5
+        lineNumber: 58,
+        columnNumber: 9
     }, this);
 }
 _s(Dashboard, "GWJ9wsDa4HexSEAQkbozOriivdU=");
@@ -370,8 +389,8 @@ function Camera({ onCapture, onClose }) {
                 className: "w-full rounded-lg"
             }, void 0, false, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 220,
-                columnNumber: 7
+                lineNumber: 225,
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "mt-4 flex gap-4 justify-center",
@@ -382,16 +401,16 @@ function Camera({ onCapture, onClose }) {
                         children: "Start Recording"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 228,
-                        columnNumber: 11
+                        lineNumber: 233,
+                        columnNumber: 21
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: stopRecording,
                         className: "bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition-colors",
                         children: "Stop Recording"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 235,
-                        columnNumber: 11
+                        lineNumber: 240,
+                        columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: onClose,
@@ -399,20 +418,20 @@ function Camera({ onCapture, onClose }) {
                         children: "Close"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/page.tsx",
-                        lineNumber: 242,
-                        columnNumber: 9
+                        lineNumber: 247,
+                        columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/page.tsx",
-                lineNumber: 226,
-                columnNumber: 7
+                lineNumber: 231,
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/dashboard/page.tsx",
-        lineNumber: 219,
-        columnNumber: 5
+        lineNumber: 224,
+        columnNumber: 9
     }, this);
 }
 _s1(Camera, "RwmkrjNo/oANV4jiGyNEMZla3rM=");
