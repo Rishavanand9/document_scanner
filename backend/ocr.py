@@ -1,13 +1,15 @@
 import base64
-import requests
-from PIL import Image
-import ollama
+from PIL import Image # type: ignore
+import ollama # type: ignore
 
-SYSTEM_PROMPT = """Act as an OCR assistant. Analyze the provided image and:
-1. Recognize all visible text in the image as accurately as possible.
-2. Maintain the original structure and formatting of the text.
-3. If any words or phrases are unclear, indicate this with [unclear] in your transcription.
-Provide only the transcription without any additional comments."""
+SYSTEM_PROMPT = """Act as an OCR assistant specialized in analyzing video images. Your tasks are:
+1. Identify and extract the name of any medicine visible in the image.
+2. Count and report the number of medicine products present in the image.
+3. Maintain the original structure and formatting of any text.
+4. If any words, phrases, or product counts are unclear, indicate this with [unclear] in your transcription.
+5. Consider various packaging types, angles, and lighting conditions to ensure accuracy.
+Provide only the transcription and count without any additional comments."""
+
 def encode_image_to_base64(image_path):
     """Convert an image file to a base64 encoded string."""
     with open(image_path, "rb") as image_file:
@@ -25,9 +27,9 @@ def perform_ocr(image_path):
     )
     return response
 
-if __name__ == "__main__":
-    image_path = "/home/vipul/projects/document_scanner/backend/temp_frame_120.jpg"  # Replace with your image path
-    result = perform_ocr(image_path)
-    if result:
-        print("OCR Recognition Result:")
-        print(result)
+# if __name__ == "__main__":
+#     image_path = "/home/vipul/projects/document_scanner/backend/temp_frame_120.jpg"  # Replace with your image path
+#     result = perform_ocr(image_path)
+#     if result:
+#         print("OCR Recognition Result:")
+#         print(result)

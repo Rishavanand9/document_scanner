@@ -54,6 +54,15 @@ export default function Dashboard() {
         }
     };
 
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const videoUrl = URL.createObjectURL(file);
+            setCapturedVideo(videoUrl);
+            setIsCameraOpen(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
             <nav className="bg-white shadow">
@@ -93,13 +102,14 @@ export default function Dashboard() {
                             />
                         )}
 
-                        {capturedVideo && (
-                            <div className="mt-4 flex flex-col items-center">
-                                <video
-                                    src={capturedVideo}
-                                    controls
-                                    className="w-full max-w-4xl rounded-lg"
-                                />
+                        <div className="mt-4 flex flex-col items-center">
+                            <input
+                                type="file"
+                                accept="video/*"
+                                onChange={handleFileUpload}
+                                className="mb-4"
+                            />
+                            {capturedVideo && (
                                 <div className="mt-6 flex gap-4">
                                     <button
                                         onClick={() => {
@@ -120,34 +130,34 @@ export default function Dashboard() {
                                         {isAnalyzing ? 'Analyzing...' : 'Authenticate Video'}
                                     </button>
                                 </div>
+                            )}
 
-                                {/* Display analysis results */}
-                                {analysisResults && (
-                                    <div className="mt-8 w-full max-w-4xl"> {/* Increased spacing */}
-                                        <h2 className="text-2xl font-bold mb-6 text-gray-800">Analysis Results</h2>
-                                        <div className="bg-white rounded-lg shadow-sm p-6"> {/* Added shadow and padding */}
-                                            <div className="space-y-4"> {/* Increased spacing between results */}
-                                                {analysisResults.map((result) => (
-                                                    <div
-                                                        key={result.frame_number}
-                                                        className="p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-between gap-4 border border-gray-200" /* Enhanced card style */
-                                                    >
-                                                        <span className="font-medium text-gray-700">Frame: {result.frame_number}</span>
-                                                        <span className="text-gray-600">Time: {result.timestamp.toFixed(2)}s</span>
-                                                        <span className="text-gray-600 flex-1">Caption: {result.caption}</span>
-                                                        <img
-                                                            src={`data:image/jpeg;base64,${result.frame_image}`}
-                                                            alt="Frame"
-                                                            className="w-24 h-24 rounded-md object-cover" /* Better image presentation */
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
+                            {/* Display analysis results */}
+                            {analysisResults && (
+                                <div className="mt-8 w-full max-w-4xl"> {/* Increased spacing */}
+                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Analysis Results</h2>
+                                    <div className="bg-white rounded-lg shadow-sm p-6"> {/* Added shadow and padding */}
+                                        <div className="space-y-4"> {/* Increased spacing between results */}
+                                            {analysisResults.map((result) => (
+                                                <div
+                                                    key={result.frame_number}
+                                                    className="p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-between gap-4 border border-gray-200" /* Enhanced card style */
+                                                >
+                                                    <span className="font-medium text-gray-700">Frame: {result.frame_number}</span>
+                                                    <span className="text-gray-600">Time: {result.timestamp.toFixed(2)}s</span>
+                                                    <span className="text-gray-600 flex-1">Caption: {result.caption}</span>
+                                                    <img
+                                                        src={`data:image/jpeg;base64,${result.frame_image}`}
+                                                        alt="Frame"
+                                                        className="w-24 h-24 rounded-md object-cover" /* Better image presentation */
+                                                    />
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </main>

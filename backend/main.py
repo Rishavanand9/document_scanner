@@ -13,6 +13,7 @@ import io
 import easyocr # type: ignore
 import numpy as np # type: ignore
 import ollama # type: ignore
+from ocr import perform_ocr # type: ignore
 
 app = FastAPI()
 
@@ -85,27 +86,17 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
                 pil_image.save(temp_frame_path, quality=65, optimize=True)
                 
                 try:
-                    # Add timeout and error handling for Ollama
-                    ollama_response = ollama.chat(
-                        model='llava',
-                        messages=[{
-                            'role': 'user',
-                            'content': 'Extract the text from the image.',
-                            'images': [temp_frame_path]
-                        }],
-                        timeout=30  # Add timeout of 30 seconds
-                    )
+                    # Use the perform_ocr function
+                    caption = perform_ocr(temp_frame_path)
                     
                     # Add response validation
-                    if ollama_response and 'message' in ollama_response and 'content' in ollama_response['message']:
-                        caption = ollama_response['message']['content']
-                    else:
+                    if not caption:
                         caption = "Error: No valid response from image analysis"
-                        print(f"Debug - Ollama response: {ollama_response}")  # Debug print
+                        print(f"Debug - OCR response: {caption}")  # Debug print
                         
                 except Exception as e:
                     caption = f"Error analyzing image: {str(e)}"
-                    print(f"Debug - Exception during Ollama processing: {e}")  # Debug print
+                    print(f"Debug - Exception during OCR processing: {e}")  # Debug print
                 
                 # Remove temporary frame file
                 if os.path.exists(temp_frame_path):
