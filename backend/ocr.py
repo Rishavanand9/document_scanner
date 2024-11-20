@@ -8,6 +8,9 @@ SYSTEM_PROMPT = """Act as an OCR assistant specialized in analyzing video images
 3. Maintain the original structure and formatting of any text.
 4. If any words, phrases, or product counts are unclear, indicate this with [unclear] in your transcription.
 5. Consider various packaging types, angles, and lighting conditions to ensure accuracy.
+6. Count the number of medicine strips/Bottles/Capsules/Containers present in the image.
+7. Get the Color of the Medicine Package and the Shape of the Medicine Package.
+8. If there are no medicines visible, say "No medicines visible".
 Provide only the transcription and count without any additional comments."""
 
 def encode_image_to_base64(image_path):

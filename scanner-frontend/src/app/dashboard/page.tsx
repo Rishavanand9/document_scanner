@@ -2,18 +2,15 @@
 
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
+import AnalysisResults from './AnalysisResults';
 
 export default function Dashboard() {
     const [isCameraOpen, setIsCameraOpen] = useState(false)
     const [capturedVideo, setCapturedVideo] = useState<string | null>(null)
     const [isRecording, setIsRecording] = useState(false)
-    const [analysisResults, setAnalysisResults] = useState<Array<{
-        frame_number: number;
-        timestamp: number;
-        caption: string;
-        frame_image: string;
-    }> | null>(null);
+    const [analysisResults, setAnalysisResults] = useState<any>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [rawJsonResponse, setRawJsonResponse] = useState<string>('');
 
     const handleCapture = (videoBlob: string) => {
         setCapturedVideo(videoBlob)
@@ -24,6 +21,7 @@ export default function Dashboard() {
         if (!capturedVideo) return;
 
         setIsAnalyzing(true);
+        setRawJsonResponse('');
         try {
             // Convert the video URL to a File object
             const response = await fetch(capturedVideo);
@@ -46,9 +44,10 @@ export default function Dashboard() {
 
             const results = await apiResponse.json();
             setAnalysisResults(results);
-        } catch (error) {
+            setRawJsonResponse(JSON.stringify(results, null, 2));
+        } catch (error: unknown) {
             console.error('Authentication error:', error);
-            // You might want to show an error message to the user here
+            setRawJsonResponse(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }, null, 2));
         } finally {
             setIsAnalyzing(false);
         }
@@ -64,17 +63,17 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <nav className="bg-white shadow">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+            <nav className="bg-white shadow-md border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex items-center">
-                            <h1 className="text-xl font-bold">Dashboard</h1>
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Dashboard</h1>
                         </div>
                         <div className="flex items-center">
                             <Link
                                 href="/"
-                                className="text-gray-600 hover:text-gray-900"
+                                className="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
                             >
                                 Logout
                             </Link>
@@ -83,13 +82,13 @@ export default function Dashboard() {
                 </div>
             </nav>
 
-            <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <main className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
                 <div className="px-4 py-6 sm:px-0">
-                    <div className="border-4 border-dashed border-gray-200 rounded-lg min-h-[600px] flex flex-col items-center justify-center">
+                    <div className="border-2 border-gray-200 rounded-xl bg-white shadow-lg min-h-[600px] flex flex-col items-center justify-center p-8">
                         {!isCameraOpen && !capturedVideo && (
                             <button
                                 onClick={() => setIsCameraOpen(true)}
-                                className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition-colors text-lg"
+                                className="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                             >
                                 Start Recording
                             </button>
@@ -107,7 +106,7 @@ export default function Dashboard() {
                                 type="file"
                                 accept="video/*"
                                 onChange={handleFileUpload}
-                                className="mb-4"
+                                className="mb-4 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                             />
                             {capturedVideo && (
                                 <div className="mt-6 flex gap-4">
@@ -117,45 +116,44 @@ export default function Dashboard() {
                                             setAnalysisResults(null);
                                             setIsCameraOpen(true);
                                         }}
-                                        className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition-colors"
+                                        className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-md hover:shadow-lg"
                                     >
                                         Record Again
                                     </button>
                                     <button
                                         onClick={handleAuthenticate}
                                         disabled={isAnalyzing}
-                                        className={`${isAnalyzing ? 'bg-gray-400' : 'bg-green-500 hover:bg-green-600'
-                                            } text-white px-6 py-3 rounded-md transition-colors`}
+                                        className={`${
+                                            isAnalyzing ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'
+                                        } text-white px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg`}
                                     >
                                         {isAnalyzing ? 'Analyzing...' : 'Authenticate Video'}
                                     </button>
                                 </div>
                             )}
 
-                            {/* Display analysis results */}
-                            {analysisResults && (
-                                <div className="mt-8 w-full max-w-4xl"> {/* Increased spacing */}
-                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Analysis Results</h2>
-                                    <div className="bg-white rounded-lg shadow-sm p-6"> {/* Added shadow and padding */}
-                                        <div className="space-y-4"> {/* Increased spacing between results */}
-                                            {analysisResults.map((result) => (
-                                                <div
-                                                    key={result.frame_number}
-                                                    className="p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center justify-between gap-4 border border-gray-200" /* Enhanced card style */
-                                                >
-                                                    <span className="font-medium text-gray-700">Frame: {result.frame_number}</span>
-                                                    <span className="text-gray-600">Time: {result.timestamp.toFixed(2)}s</span>
-                                                    <span className="text-gray-600 flex-1">Caption: {result.caption}</span>
-                                                    <img
-                                                        src={`data:image/jpeg;base64,${result.frame_image}`}
-                                                        alt="Frame"
-                                                        className="w-24 h-24 rounded-md object-cover" /* Better image presentation */
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
+                            {isAnalyzing && (
+                                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                    <div className="bg-white p-8 rounded-xl shadow-2xl flex flex-col items-center">
+                                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-600 mb-4"></div>
+                                        <p className="text-lg font-medium text-gray-700">Analyzing Video...</p>
+                                        <p className="text-sm text-gray-500 mt-2">This may take a few moments</p>
                                     </div>
                                 </div>
+                            )}
+
+                            {analysisResults && (
+                                <>
+                                    <AnalysisResults results={analysisResults} />
+                                    <div className="mt-8">
+                                        <h3 className="text-xl font-semibold mb-4 text-gray-700">Raw Response</h3>
+                                        <div className="bg-gray-900 rounded-lg p-4 overflow-x-scroll ">
+                                            <span className="text-green-400 font-mono text-sm whitespace-pre-wrap">
+                                                {rawJsonResponse}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </>
                             )}
                         </div>
                     </div>
@@ -236,27 +234,27 @@ function Camera({ onCapture, onClose }: { onCapture: (videoBlob: string) => void
                 ref={videoRef}
                 autoPlay
                 playsInline
-                className="w-full rounded-lg"
+                className="w-full rounded-xl shadow-lg"
             />
-            <div className="mt-4 flex gap-4 justify-center">
+            <div className="mt-6 flex gap-4 justify-center">
                 {!isRecording ? (
                     <button
                         onClick={startRecording}
-                        className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-colors"
+                        className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                         Start Recording
                     </button>
                 ) : (
                     <button
                         onClick={stopRecording}
-                        className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition-colors"
+                        className="bg-gray-600 text-white px-8 py-3 rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                         Stop Recording
                     </button>
                 )}
                 <button
                     onClick={onClose}
-                    className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-colors"
+                    className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                 >
                     Close
                 </button>

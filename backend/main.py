@@ -69,58 +69,76 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
     try:
         results = []
         video = cv2.VideoCapture(temp_path)
-        fps = video.get(cv2.CAP_PROP_FPS)
-        frame_count = 0
         
-        while True:
-            ret, frame = video.read()
-            if not ret:
-                break
+        # Check if video opened successfully
+        if not video.isOpened():
+            raise HTTPException(status_code=400, detail="Could not open video file")
             
-            frame_count += 1
-            if frame_count % int(fps * 5) == 0:
-                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                pil_image = Image.fromarray(rgb_frame)
+        fps = video.get(cv2.CAP_PROP_FPS)
+        total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+        
+        print(f"Debug - Total frames: {total_frames}, FPS: {fps}")
+        
+        # Ensure we have at least 2 frames
+        if total_frames < 2:
+            raise HTTPException(status_code=400, detail="Video must have at least 4 frames")
+        
+        # Frames to process: first and last
+        frames_to_process = [0,  max(0, total_frames-1)]
+        print(f"Debug - Frames to process: {frames_to_process}")
+        
+        for frame_idx in frames_to_process:
+            print(f"Debug - Processing frame {frame_idx}")
+            
+            # Set video to specific frame
+            video.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
+            ret, frame = video.read()
+            
+            if not ret:
+                print(f"Debug - Failed to read frame {frame_idx}")
+                continue
                 
-                temp_frame_path = f"temp_frame_{frame_count}.jpg"
-                pil_image.save(temp_frame_path, quality=65, optimize=True)
-                
-                try:
-                    # Use the perform_ocr function
-                    caption = perform_ocr(temp_frame_path)
+            print(f"Debug - Successfully read frame {frame_idx}")
+            
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            pil_image = Image.fromarray(rgb_frame)
+            
+            temp_frame_path = f"temp_frame_{frame_idx}.jpg"
+            pil_image.save(temp_frame_path, quality=65, optimize=True)
+            
+            try:
+                caption = perform_ocr(temp_frame_path)
+                if not caption:
+                    caption = "Error: No valid response from image analysis"
+                print(f"Debug - OCR response for frame {frame_idx}: {caption}")
                     
-                    # Add response validation
-                    if not caption:
-                        caption = "Error: No valid response from image analysis"
-                        print(f"Debug - OCR response: {caption}")  # Debug print
-                        
-                except Exception as e:
-                    caption = f"Error analyzing image: {str(e)}"
-                    print(f"Debug - Exception during OCR processing: {e}")  # Debug print
-                
-                # Remove temporary frame file
-                if os.path.exists(temp_frame_path):
-                    os.remove(temp_frame_path)
-                
-                # Convert frame to base64
-                buffered = io.BytesIO()
-                pil_image.save(buffered, format="JPEG")
-                img_str = base64.b64encode(buffered.getvalue()).decode()
-                
-                results.append({
-                    "frame_number": frame_count,
-                    "timestamp": frame_count/fps,
-                    "caption": caption,
-                    "frame_image": img_str
-                })
-                
-                print(f"Debug - Processed frame {frame_count} with caption: {caption}")  # Debug print
+            except Exception as e:
+                caption = f"Error analyzing image: {str(e)}"
+                print(f"Debug - Exception during OCR processing for frame {frame_idx}: {e}")
+            
+            # Remove temporary frame file
+            if os.path.exists(temp_frame_path):
+                os.remove(temp_frame_path)
+            
+            # Convert frame to base64
+            buffered = io.BytesIO()
+            pil_image.save(buffered, format="JPEG")
+            img_str = base64.b64encode(buffered.getvalue()).decode()
+            
+            results.append({
+                "frame_number": frame_idx,
+                "timestamp": frame_idx/fps,
+                "caption": caption,
+                "frame_image": img_str
+            })
         
         video.release()
+        
+        print(f"Debug - Total results processed: {len(results)}")
         return results
     
     except Exception as e:
-        print(f"Debug - Main function exception: {e}")  # Debug print
+        print(f"Debug - Main function exception: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         # Clean up temporary file
