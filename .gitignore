@@ -1,6 +1,9 @@
 # Python
 venv/
+vvv/
 env/
+.next/
+models/
 .env
 __pycache__/
 *.py[cod]
