@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 interface CameraProps {
-    onCapture: (videoBlob: string) => void;
+    onCapture: (videoBlob: Blob) => void;
     onClose: () => void;
 }
 
@@ -10,6 +10,7 @@ export default function Camera({ onCapture, onClose }: CameraProps) {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
     const [isRecording, setIsRecording] = useState(false)
     const chunksRef = useRef<Blob[]>([])
+    const [videoBlob, setVideoBlob] = useState<Blob | null>(null)
 
     useEffect(() => {
         let stream: MediaStream | null = null
@@ -37,8 +38,9 @@ export default function Camera({ onCapture, onClose }: CameraProps) {
 
                     mediaRecorderRef.current.onstop = () => {
                         const blob = new Blob(chunksRef.current, { type: 'video/webm' })
-                        const videoUrl = URL.createObjectURL(blob)
-                        onCapture(videoUrl)
+                        setVideoBlob(blob)
+                        // const videoUrl = URL.createObjectURL(blob)
+                        onCapture(blob)
                         chunksRef.current = []
                     }
                 }
@@ -70,6 +72,19 @@ export default function Camera({ onCapture, onClose }: CameraProps) {
         }
     }
 
+    const handleDownload = () => {
+        if (videoBlob) {
+            const url = URL.createObjectURL(videoBlob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'recorded-video.webm'
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            URL.revokeObjectURL(url)
+        }
+    }
+
     return (
         <div className="relative w-full max-w-4xl">
             <video
@@ -92,6 +107,14 @@ export default function Camera({ onCapture, onClose }: CameraProps) {
                         className="bg-gray-600 text-white px-8 py-3 rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
                     >
                         Stop Recording
+                    </button>
+                )}
+                {videoBlob && !isRecording && (
+                    <button
+                        onClick={handleDownload}
+                        className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium"
+                    >
+                        Download Video
                     </button>
                 )}
                 <button

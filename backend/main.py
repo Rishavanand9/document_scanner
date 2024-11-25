@@ -14,6 +14,7 @@ import easyocr # type: ignore
 import numpy as np # type: ignore
 import ollama # type: ignore
 from ocr import perform_ocr # type: ignore
+from detect_text import detect_text  # Add this import
 
 app = FastAPI()
 
@@ -60,33 +61,50 @@ reader = easyocr.Reader(['en'])  # for English only
 
 @app.post("/api/authenticate")
 async def authenticate_video(file: UploadFile) -> List[dict]:
-    # Save uploaded video to temporary file
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
-        content = await file.read()
-        temp_file.write(content)
-        temp_path = temp_file.name
+    video = None
+    temp_path = None
     
     try:
-        results = []
+        # Validate file extension
+        if not file.filename.lower().endswith(('.mp4', '.avi', '.mov', '.mkv')):
+            raise HTTPException(status_code=400, detail="Unsupported video format. Please upload MP4, AVI, MOV, or MKV files.")
+
+        # Save uploaded video to temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
+            content = await file.read()
+            if len(content) == 0:
+                raise HTTPException(status_code=400, detail="Empty file uploaded")
+            temp_file.write(content)
+            temp_path = temp_file.name
+        
+        # Open video after the file is completely written and closed
         video = cv2.VideoCapture(temp_path)
         
-        # Check if video opened successfully
+        # More thorough video validation
         if not video.isOpened():
             raise HTTPException(status_code=400, detail="Could not open video file")
             
         fps = video.get(cv2.CAP_PROP_FPS)
         total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
         
-        print(f"Debug - Total frames: {total_frames}, FPS: {fps}")
+        print(f"Debug - Video properties:")
+        print(f"Debug - Path: {temp_path}")
+        print(f"Debug - Total frames: {total_frames}")
+        print(f"Debug - FPS: {fps}")
+        print(f"Debug - File size: {os.path.getsize(temp_path)} bytes")
         
-        # Ensure we have at least 2 frames
-        if total_frames < 2:
-            raise HTTPException(status_code=400, detail="Video must have at least 4 frames")
+        # More comprehensive validation
+        if total_frames <= 0 or fps <= 0:
+            raise HTTPException(
+                status_code=400, 
+                detail="Invalid video file. Please ensure the video is properly encoded and not corrupted."
+            )
         
-        # Frames to process: first and last
-        frames_to_process = [0,  max(0, total_frames-1)]
+        # Process frames
+        frames_to_process = [0, max(0, total_frames-1)]
         print(f"Debug - Frames to process: {frames_to_process}")
         
+        results = []
         for frame_idx in frames_to_process:
             print(f"Debug - Processing frame {frame_idx}")
             
@@ -107,14 +125,13 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
             pil_image.save(temp_frame_path, quality=65, optimize=True)
             
             try:
-                caption = perform_ocr(temp_frame_path)
-                if not caption:
-                    caption = "Error: No valid response from image analysis"
-                print(f"Debug - OCR response for frame {frame_idx}: {caption}")
+                task_prompt = '<OCR>'
+                response = detect_text(task_prompt=task_prompt, image=pil_image)
+                print(f"Debug - Labels detected for frame {frame_idx}: {response}")
                     
             except Exception as e:
-                caption = f"Error analyzing image: {str(e)}"
-                print(f"Debug - Exception during OCR processing for frame {frame_idx}: {e}")
+                response = ''
+                print(f"Debug - Exception during text detection for frame {frame_idx}: {e}")
             
             # Remove temporary frame file
             if os.path.exists(temp_frame_path):
@@ -127,12 +144,10 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
             
             results.append({
                 "frame_number": frame_idx,
+                "frame_image": img_str,
                 "timestamp": frame_idx/fps,
-                "caption": caption,
-                "frame_image": img_str
+                "message": response  # Changed from caption to labels
             })
-        
-        video.release()
         
         print(f"Debug - Total results processed: {len(results)}")
         return results
@@ -141,6 +156,14 @@ async def authenticate_video(file: UploadFile) -> List[dict]:
         print(f"Debug - Main function exception: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     finally:
-        # Clean up temporary file
-        if os.path.exists(temp_path):
-            os.unlink(temp_path)
+        # Clean up resources
+        if video is not None:
+            video.release()
+        # Wait a brief moment before trying to delete the file
+        import time
+        time.sleep(0.1)
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.unlink(temp_path)
+            except PermissionError:
+                print(f"Warning: Could not delete temporary file: {temp_path}")

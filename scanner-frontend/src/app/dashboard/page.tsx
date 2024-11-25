@@ -5,6 +5,11 @@ import { useState } from 'react'
 import AnalysisResults from './AnalysisResults';
 import Camera from './Camera';
 
+interface CameraProps {
+    onCapture: (videoBlob: Blob) => void;
+    onClose: () => void;
+}
+
 export default function Dashboard() {
     const [isCameraOpen, setIsCameraOpen] = useState(false)
     const [capturedVideo, setCapturedVideo] = useState<string | null>(null)
@@ -12,9 +17,10 @@ export default function Dashboard() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [rawJsonResponse, setRawJsonResponse] = useState<string>('');
 
-    const handleCapture = (videoBlob: string) => {
-        setCapturedVideo(videoBlob)
-        setIsCameraOpen(false)
+    const handleCapture = (videoBlob: Blob) => {
+        const videoUrl = URL.createObjectURL(videoBlob);
+        setCapturedVideo(videoUrl);
+        setIsCameraOpen(false);
     }
 
     const handleAuthenticate = async () => {
@@ -145,14 +151,14 @@ export default function Dashboard() {
                             {analysisResults && (
                                 <>
                                     <AnalysisResults results={analysisResults} />
-                                    <div className="mt-8">
+                                    {/* <div className="mt-8">
                                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Raw Response</h3>
                                         <div className="bg-gray-900 rounded-lg p-4 overflow-x-scroll ">
                                             <span>
                                                 {rawJsonResponse}
                                             </span>
                                         </div> 
-                                    </div>
+                                    </div> */}
                                 </>
                             )}
                         </div>

@@ -3,12 +3,7 @@ import React from 'react';
 interface AnalysisResult {
     frame_number: number;
     timestamp: number;
-    caption: {
-        model: string;
-        message: {
-            content: string;
-        };
-    };
+    message: string;
     frame_image: string;
 }
 
@@ -52,7 +47,7 @@ const AnalysisResults: React.FC<AnalysisResultsProps> = ({ results }) => {
                                         <tr className="border-b">
                                             <th className="py-2 text-left text-gray-600">Message</th>
                                             <td className="py-2 text-left text-gray-600">
-                                                {JSON.stringify(result.caption.message)}
+                                                {JSON.stringify(result.message)}
                                             </td>
                                         </tr>
                                     </tbody>
