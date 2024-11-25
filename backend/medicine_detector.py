@@ -47,7 +47,7 @@ class MedicineDetector:
             "full_text": "",
             "summary": "",
             "frame_number": 0
-        }
+        } 
 
         # Get all text using OCR - simplified prompt
         full_text_prompt = "<OCR>"
